@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, Column, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 
-# 1. 数据库配置 (符合手册 SQL 数据库要求)
+# 1. 数据库配置 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./tasks.db"
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -21,7 +21,7 @@ class TaskModel(Base):
 
 Base.metadata.create_all(bind=engine)
 
-# 3. 定义数据传输模型 (Pydantic)
+# 3. 定义数据传输模型 
 class TaskSchema(BaseModel):
     id: int
     title: str
@@ -33,7 +33,7 @@ class TaskSchema(BaseModel):
 
 app = FastAPI(title="XJCO3011 Task API")
 
-# 获取数据库连接的辅助函数
+
 def get_db():
     db = SessionLocal()
     try:
@@ -41,7 +41,7 @@ def get_db():
     finally:
         db.close()
 
-# --- 下面是满足 CRUD 要求的 4 个接口 ---
+
 
 # 接口 1: 读取所有 (Read)
 @app.get("/tasks", response_model=List[TaskSchema])
